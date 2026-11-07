@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">MobileApps2026-2401321071</string>
+    <string name="app_name">Movie Log</string>
+    <string name="title_collection">Collection</string>
+    <string name="title_search">Search</string>
+    <string name="title_history">History</string>
+    <string name="in_watchlist">In Watchlist</string>
+    <string name="mark_as_watched">Mark as Watched</string>
+    <string name="delete_movie">Delete Movie</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.movielog.mobileapps2026_2401321071">
 
     <application
         android:allowBackup="true"
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileApps20262401321071">
         <activity
-            android:name=".MainActivity"
+            android:name="com.movielog.mobileapps2026_2401321071.ui.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
