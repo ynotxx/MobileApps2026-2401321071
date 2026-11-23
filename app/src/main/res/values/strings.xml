@@ -6,4 +6,10 @@
     <string name="in_watchlist">In Watchlist</string>
     <string name="mark_as_watched">Mark as Watched</string>
     <string name="delete_movie">Delete Movie</string>
+    <string name="rating_label">Rating (0.0 - 10.0)</string>
+    <string name="notes_label">Personal Notes</string>
+    <string name="save_changes">Save Changes / Log Viewing</string>
+    <string name="invalid_rating_error">Invalid rating. Must be 0.0 - 10.0 (in 0.1 increments).</string>
+    <string name="no_history">No viewing history recorded yet.</string>
+    <string name="share_movie">Share Movie</string>
 </resources>
