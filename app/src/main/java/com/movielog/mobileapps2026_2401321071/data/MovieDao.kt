@@ -31,4 +31,10 @@ interface MovieDao {
 
     @Query("SELECT * FROM movies WHERE localId = :localId")
     fun getMovieById(localId: Long): Flow<Movie?>
+
+    @Query("SELECT COUNT(*) FROM movies WHERE apiId = :apiId")
+    suspend fun countByApiId(apiId: String): Int
+
+    @Query("SELECT * FROM movies WHERE apiId = :apiId LIMIT 1")
+    suspend fun getMovieByApiId(apiId: String): Movie?
 }

@@ -7,12 +7,17 @@ import com.movielog.mobileapps2026_2401321071.data.Movie
 import com.movielog.mobileapps2026_2401321071.data.MovieHistory
 import com.movielog.mobileapps2026_2401321071.data.MovieRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
+
+    private val _searchState = MutableStateFlow<SearchUiState>(SearchUiState.Idle)
+    val searchState: StateFlow<SearchUiState> = _searchState.asStateFlow()
 
     val allMovies: StateFlow<List<Movie>> = repository.allMovies.stateIn(
         scope = viewModelScope,
@@ -37,6 +42,34 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
     )
+
+    fun searchMovies(query: String) {
+        if (query.isBlank()) {
+            _searchState.value = SearchUiState.Idle
+            return
+        }
+        _searchState.value = SearchUiState.Loading
+        viewModelScope.launch {
+            try {
+                val results = repository.searchOnlineMovies(query)
+                _searchState.value = SearchUiState.Success(results)
+            } catch (e: Exception) {
+                _searchState.value = SearchUiState.Error(e.message ?: "An error occurred.")
+            }
+        }
+    }
+
+    fun importMovieToWatchlist(imdbId: String) {
+        viewModelScope.launch {
+            repository.importMovieFromApi(imdbId, inWatchlist = true, watched = false)
+        }
+    }
+
+    fun importMovieToCollection(imdbId: String) {
+        viewModelScope.launch {
+            repository.importMovieFromApi(imdbId, inWatchlist = false, watched = false)
+        }
+    }
 
     fun getMovieById(localId: Long): Flow<Movie?> {
         return repository.getMovieById(localId)

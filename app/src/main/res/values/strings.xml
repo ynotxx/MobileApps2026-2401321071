@@ -12,4 +12,8 @@
     <string name="invalid_rating_error">Invalid rating. Must be 0.0 - 10.0 (in 0.1 increments).</string>
     <string name="no_history">No viewing history recorded yet.</string>
     <string name="share_movie">Share Movie</string>
+    <string name="search_hint">Search movies by title...</string>
+    <string name="add_to_watchlist">Watchlist</string>
+    <string name="add_to_collection">Add</string>
+    <string name="search_prompt">Type a movie title above to search OMDb.</string>
 </resources>

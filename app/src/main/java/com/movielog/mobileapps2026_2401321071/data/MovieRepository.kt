@@ -1,5 +1,7 @@
 package com.movielog.mobileapps2026_2401321071.data
 
+import com.movielog.mobileapps2026_2401321071.data.network.OmdbSearchResult
+import com.movielog.mobileapps2026_2401321071.data.network.RetrofitClient
 import kotlinx.coroutines.flow.Flow
 
 class MovieRepository(
@@ -15,7 +17,34 @@ class MovieRepository(
         return movieDao.getMovieById(localId)
     }
 
+    suspend fun searchOnlineMovies(query: String): List<OmdbSearchResult> {
+        val response = RetrofitClient.apiService.searchMovies(query)
+        if (response.response.equals("True", ignoreCase = true) && response.searchResults != null) {
+            return response.searchResults
+        } else {
+            throw Exception(response.error ?: "No movies found.")
+        }
+    }
+
+    suspend fun importMovieFromApi(imdbId: String, inWatchlist: Boolean = false, watched: Boolean = false): Movie {
+        val existing = movieDao.getMovieByApiId(imdbId)
+        if (existing != null) {
+            val updated = existing.copy(
+                inWatchlist = if (inWatchlist) true else existing.inWatchlist,
+                watched = if (watched) true else existing.watched
+            )
+            movieDao.updateMovie(updated)
+            return updated
+        }
+        val detail = RetrofitClient.apiService.getMovieDetails(imdbId)
+        val entity = detail.toMovieEntity(inWatchlist = inWatchlist, watched = watched)
+        val id = movieDao.insertMovie(entity)
+        return entity.copy(localId = id)
+    }
+
     suspend fun insertMovie(movie: Movie): Long {
+        val existing = movieDao.getMovieByApiId(movie.apiId)
+        if (existing != null) return existing.localId
         return movieDao.insertMovie(movie)
     }
 

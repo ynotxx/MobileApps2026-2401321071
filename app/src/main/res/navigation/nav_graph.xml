@@ -37,4 +37,24 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.movielog.mobileapps2026_2401321071.ui.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_profileDetailFragment"
+            app:destination="@id/profileDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileDetailFragment"
+        android:name="com.movielog.mobileapps2026_2401321071.ui.ProfileDetailFragment"
+        android:label="Profile Details"
+        tools:layout="@layout/fragment_profile_detail">
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

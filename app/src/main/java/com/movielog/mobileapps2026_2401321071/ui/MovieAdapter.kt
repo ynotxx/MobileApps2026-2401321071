@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.movielog.mobileapps2026_2401321071.R
 import com.movielog.mobileapps2026_2401321071.data.Movie
 import com.movielog.mobileapps2026_2401321071.databinding.ItemMovieBinding
 
@@ -33,6 +35,17 @@ class MovieAdapter(
         fun bind(movie: Movie) {
             binding.tvTitle.text = movie.title
             binding.tvYear.text = movie.year.toString()
+
+            if (movie.posterUrl.isNotEmpty() && movie.posterUrl != "N/A") {
+                binding.ivPoster.load(movie.posterUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_collection)
+                    error(R.drawable.ic_collection)
+                }
+            } else {
+                binding.ivPoster.setImageResource(R.drawable.ic_collection)
+            }
+
             binding.root.setOnClickListener {
                 onMovieClick(movie)
             }
